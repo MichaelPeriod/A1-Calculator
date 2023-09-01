@@ -20,7 +20,7 @@ The following **extensions** are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='calculatorapp.gif' title='Video Walkthrough' width='50%' alt='Video Walkthrough' />
+<img src='CalculatorApp.gif' title='Video Walkthrough' width='50%' alt='Video Walkthrough' />
 Please ignore the NAN, I double clicked the dividing sign so it was trying to devide with a number that doesn't exist yet.
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
