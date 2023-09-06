@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.text.isDigitsOnly
+import android.util.Log;
 
 /*
 * Made by Michael Utz
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     var action = "";
     var numCurr = 1;
     var lastSolve = "";
+    val logTag = "INFO";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //initialize window
@@ -111,6 +113,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             else -> {
                 setText("NAN");
+                //Log button pressed
+                Log.v(logTag, "Button Pressed:" + "Button isn't registered");
             }
         }
     }
@@ -190,6 +194,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     /*Input action management*/
     //Handle numbers being pressed
     fun numPressed(num: String) {
+        //Log button pressed
+        Log.v(logTag, "Button Pressed:$num");
+
         //Add to appropriate number and update the text
         if(numCurr == 1)
             firstNum += num;
@@ -201,6 +208,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //Handle symbols being pressed
     fun symbolPressed(symbol: String){
+        //Log button pressed
+        Log.v(logTag, "Button Pressed:$symbol");
+
         //If first number is empty and last solve isn't use the last number
         if(firstNum.isEmpty()){
             if(lastSolve.isNotEmpty()){
@@ -226,6 +236,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //All other buttons
     fun miscButtons(action: String){
+        //Log button pressed
+        Log.v(logTag, "Button Pressed:$action");
+
         when(action){
             "%" -> { //Divide appropriate number by 100
                 if(numCurr == 1){
