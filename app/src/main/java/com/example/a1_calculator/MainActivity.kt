@@ -2,15 +2,22 @@ package com.example.a1_calculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.text.isDigitsOnly
 import android.util.Log;
+import kotlin.math.cos
+import kotlin.math.ln
+import kotlin.math.log
+import kotlin.math.sin
+import kotlin.math.tan
 
 /*
 * Made by Michael Utz
 * Finished 8/31
+* Updated 9/7
 * Worked Alone
 * */
 
@@ -20,13 +27,26 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     var secondNum = "";
     var action = "";
     var numCurr = 1;
-    var lastSolve = "";
+    var lastSolve = "0";
     val logTag = "INFO";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //initialize window
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        //Get and set orientation
+        if(resources.configuration.orientation == 1){ //Vertical
+            setContentView(R.layout.activity_main);
+        } else { //Horizontal
+            setContentView(R.layout.activity_main_h);
+
+            //Initialize extra buttons
+            findViewById<Button>(R.id.button_sin).setOnClickListener(this);
+            findViewById<Button>(R.id.button_cos).setOnClickListener(this);
+            findViewById<Button>(R.id.button_tan).setOnClickListener(this);
+            findViewById<Button>(R.id.button_log).setOnClickListener(this);
+            findViewById<Button>(R.id.button_ln).setOnClickListener(this);
+        }
 
         //Initialize all buttons to call onClick
         findViewById<Button>(R.id.button_clear).setOnClickListener(this);
@@ -48,8 +68,38 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.button_equals).setOnClickListener(this);
         findViewById<Button>(R.id.button_dot).setOnClickListener(this);
         findViewById<Button>(R.id.button_sign).setOnClickListener(this);
+
+        //Load data before the pause if exists
+        if(savedInstanceState != null){
+            firstNum = savedInstanceState.getString("firstNum").toString();
+            secondNum = savedInstanceState.getString("secondNum").toString();
+            action = savedInstanceState.getString("action").toString();
+            numCurr = savedInstanceState.getInt("numCurr");
+            lastSolve = savedInstanceState.getString("lastSolve").toString();
+
+            //Log for debug
+            Log.i(logTag, "Restored $firstNum $secondNum $action $numCurr $lastSolve.");
+
+            //Return display to last displayed
+            if(firstNum.isEmpty() && lastSolve.isNotEmpty())
+                setText(lastSolve);
+            else
+                updateText();
+        }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        //Save the state as is
+        super.onSaveInstanceState(outState);
+
+        outState.putString("firstNum", firstNum);
+        outState.putString("secondNum", secondNum);
+        outState.putString("action", action);
+        outState.putInt("numCurr", numCurr);
+        outState.putString("lastSolve", lastSolve);
+
+        Log.v(logTag, "Saved");
+    }
 
     override fun onClick(button: View?) {
         //Call appropriate function for each button
@@ -111,9 +161,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.button_plus -> {
                 symbolPressed("+");
             }
+            R.id.button_sin -> {
+                trigButtons("sin");
+            }
+            R.id.button_cos -> {
+                trigButtons("cos");
+            }
+            R.id.button_tan -> {
+                trigButtons("tan");
+            }
+            R.id.button_log -> {
+                trigButtons("log");
+            }
+            R.id.button_ln -> {
+                trigButtons("ln");
+            }
             else -> {
                 setText("NAN");
-                //Log button pressed
+                //Log button error
                 Log.v(logTag, "Button Pressed:" + "Button isn't registered");
             }
         }
@@ -232,6 +297,66 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         //Move pointer to new number
         action = symbol;
         numCurr++;
+    }
+
+    //Handle all trig buttons in part 2
+    fun trigButtons(function : String) {
+        //Log button pressed
+        Log.v(logTag, "Button Pressed: $function");
+
+        //If first number is empty and last solve isn't use the last number
+        if(firstNum.isEmpty()){
+            if(lastSolve.isNotEmpty()){
+                firstNum = lastSolve;
+            }
+            else { //If no numbers have been pressed don't allow function
+                return;
+            }
+        }
+
+        //NOTE: All trig functions work in radians
+        //Select and apply appropriate function
+        when (function) {
+            "sin" -> {
+                if(numCurr == 1){
+                    firstNum = sin(firstNum.toDouble()).toString();
+                    Log.v(logTag, firstNum);
+                } else {
+                    secondNum = sin(secondNum.toDouble()).toString();
+                }
+            }
+            "cos" -> {
+                if(numCurr == 1){
+                    firstNum = cos(firstNum.toDouble()).toString();
+                } else {
+                    secondNum = cos(secondNum.toDouble()).toString();
+                }
+            }
+            "tan" -> {
+                if(numCurr == 1){
+                    firstNum = tan(firstNum.toDouble()).toString();
+                } else {
+                    secondNum = tan(secondNum.toDouble()).toString();
+                }
+            }
+            "log" -> {
+                if(numCurr == 1){
+                    firstNum = log(firstNum.toDouble(), 10.0).toString();
+                } else {
+                    secondNum = log(secondNum.toDouble(), 10.0).toString();
+                }
+            }
+            "ln" -> {
+                if(numCurr == 1){
+                    firstNum = ln(firstNum.toDouble()).toString();
+                } else {
+                    secondNum = ln(secondNum.toDouble()).toString();
+                }
+            }
+        }
+
+        //Show text once complete
+        updateText();
     }
 
     //All other buttons
