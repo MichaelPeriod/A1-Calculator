@@ -1,33 +1,30 @@
-# Project 1 - Calculator App
+# Project 2 - Calculator App
 
-App works simmilarly to the IPhone calculator
+App works simmilarly to IPhone calculator, now with more functionallity
 
 ## Functionality 
 
 The following **required** functionality is completed:
 
-* [X] Buttons appear as requested
-* [X] Text at top updates dynamically
-* [X] User can use all 4 standard functions
-* [X] User can add decimal points, flip sign, and convert to precentages
-* [X] Calculator can chain after pressing equals
-
-The following **extensions** are implemented:
-
-* Calculator can chain after pressing signs with other signs similar to IPhone
+* [X] Project 1 Requirements
+* [X] App Logging
+* [X] Calculator Icon
+* [X] Maintains Data Across Rotations
+* [X] Has Horizontal Layout
+* [X] All Horizontal Buttons Function As Expected
 
 ## Video Walkthrough
 
-Here's a walkthrough of implemented user stories:
+Here's a walkthrough of implemented functionallity:
 
-<img src='CalculatorApp.gif' title='Video Walkthrough' width='50%' alt='Video Walkthrough' />
-Please ignore the NAN, I double clicked the dividing sign so it was trying to devide with a number that doesn't exist yet.
+<img src='CalculatorAppProj2.gif' title='Video Walkthrough' width='50%' alt='Video Walkthrough' />
+Notice: All trig functions are in Radians
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-I had significant issues when originally building the XML file along with implementing the buttons. I am sure there is a more efficent way to do buttons but I couldn't recall it so I looked this solution up. As for the XML as a habit from HTML I used hyphens to deliminate my words in my tags and that breaks the parsing. The only other issues were a cause of not being fully familiar with Kotlin so I imagine I will get better with practice.
+Looking at the slides I couldn't find mention on changing the icon so I had to do research based on memory. Furthermore, the lifecycle is confusing at times because of the sides not all showing all the information, one website of documentation would be really helpful.
 
 ## License
 
